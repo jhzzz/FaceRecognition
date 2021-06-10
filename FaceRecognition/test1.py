@@ -5,7 +5,7 @@ import numpy as np
 import cv2
 
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("data/dlib-data/shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("../data/dlib-data/shape_predictor_68_face_landmarks.dat")
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 def detect_face(path):
@@ -41,13 +41,13 @@ def detect_face(path):
     cv2.waitKey(0)
 
 if __name__ == '__main__':
-    # path = "face_img/yy.jpg"
-    # path2 = "data/screenshots/person_10/face_8_2021-06-01-11-39-39.jpg"
-    # detect_face(path)
-    image_dir = "data/screenshots/person_1"
-    for file in os.listdir(image_dir):
-        print(file)
-        img = cv2.imread(os.path.join(image_dir, file))
-        if img is None:
-            print(os.path.join(image_dir, file))
-            break
+    path = "face_img/yy.jpg"
+    path2 = "../data/screenshots/person_10/face_8_2021-06-01-11-39-39.jpg"
+    detect_face(path2)
+    # image_dir = "../data/screenshots/person_1"
+    # for file in os.listdir(image_dir):
+    #     print(file)
+    #     img = cv2.imread(os.path.join(image_dir, file))
+    #     if img is None:
+    #         print(os.path.join(image_dir, file))
+    #         break

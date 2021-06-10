@@ -3,7 +3,7 @@ import tensorflow
 import keras
 from keras.optimizers import SGD
 
-from load_data import Dataset
+from face_recognition.load_data import Dataset
 
 
 class Model:
@@ -67,29 +67,29 @@ class Model:
     def save_model(self, model_path):
         self.model.save(model_path)
 
-    def load_model(self, model_path):
-        self.model = keras.models.load_model(model_path)
-
-    def face_predict(self, image):
-        image = np.array(image)
-        image = image.reshape((1, 64, 64, 3))
-        image = image.astype('float32')
-        image /= 255
-        # 给出输入属于各个类别的概率，我们是二值类别，则该函数会给出输入图像属于0和1的概率各为多少
-        predict_probability = self.model.predict_proba(image)
-        # 给出类别预测：0或者1
-        result = self.model.predict_classes(image)
-        # 返回类别预测结果
-        # return max(predict_probability[0]), result[0]
-        return predict_probability[0], result[0]
+    # def load_model(self, model_path):
+    #     self.model = keras.models.load_model(model_path)
+    #
+    # def face_predict(self, image):
+    #     image = np.array(image)
+    #     image = image.reshape((1, 64, 64, 3))
+    #     image = image.astype('float32')
+    #     image /= 255
+    #     # 给出输入属于各个类别的概率，我们是二值类别，则该函数会给出输入图像属于0和1的概率各为多少
+    #     predict_probability = self.model.predict_proba(image)
+    #     # 给出类别预测：0或者1
+    #     result = self.model.predict_classes(image)
+    #     # 返回类别预测结果
+    #     # return max(predict_probability[0]), result[0]
+    #     return predict_probability[0], result[0]
 
 
 if __name__ == '__main__':
-    dataset = Dataset("data/normalized-faces/")
-    dataset.load_dataset("person_0", "person_1", "person_2")
+    dataset = Dataset()
+    dataset.load_dataset()
     dataset.prepare_dataset()
     model = Model()
     model.build_model(dataset)
     model.train_model(dataset)
     model.evaluate_model(dataset)
-    model.save_model('data/model/model.h5')
+    # model.save_model('../data/model/model.h5')

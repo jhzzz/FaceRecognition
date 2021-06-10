@@ -5,7 +5,7 @@ import cv2
 import dlib
 import numpy as np
 
-predictor = dlib.shape_predictor("data/dlib-data/shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("../data/dlib-data/shape_predictor_68_face_landmarks.dat")
 detector = dlib.get_frontal_face_detector()
 font = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -17,8 +17,8 @@ class FaceNormalize:
         self.pt_left_eye = (0, 0)
         self.pt_right_eye = (0, 0)
         self.rotate_angle = 0
-        self.write_path = "data/normalized-faces/"
-        self.read_path = "data/screenshots/"
+        self.write_path = "../data/normalized-faces/"
+        self.read_path = "../data/screenshots/"
 
     def face_rotate(self, img):
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -86,8 +86,8 @@ class FaceNormalize:
                 after_cut_face = img[top: bottom, left: right]
 
                 after_resize = cv2.resize(after_cut_face, (self.NORMALIZE_SIZE, self.NORMALIZE_SIZE))
-                gray = cv2.cvtColor(after_resize, cv2.COLOR_RGB2GRAY)
-                dst = cv2.equalizeHist(gray)
+                dst = cv2.cvtColor(after_resize, cv2.COLOR_RGB2GRAY)
+                # dst = cv2.equalizeHist(gray)
         return dst
 
     def write_normalized_face(self, img, face_num, person_name):
@@ -111,12 +111,13 @@ class FaceNormalize:
 
             if after_rotate is not None:
                 after_normalize = self.face_normalize(after_rotate)
-                self.write_normalized_face(after_normalize, all_faces_path.index(face_path), person_name)
+                self.write_normalized_face(after_normalize, all_faces_path.index(face_path) + 1, person_name)
                 # print(face_path)
+
 
 if __name__ == '__main__':
     face_normalize = FaceNormalize()
-    face_normalize.run('person_2')
+    face_normalize.run('000005')
     # face = FaceNormalize()
     # path = "data/screenshots/person_1/face_16_2021-06-07-14-41-14.jpg"
     # img = cv2.imread(path)

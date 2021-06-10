@@ -5,8 +5,8 @@ import keras
 
 
 class Dataset:
-    def __init__(self, data_path):
-        self.path = data_path
+    def __init__(self):
+        self.path = "../data/normalized-faces/"
         # 数据集
         self.images = []
         self.labels = []
@@ -24,9 +24,12 @@ class Dataset:
         # 输入维度
         self.input_shape = None
 
-    def load_dataset(self, *person_name):
-        # self.class_num = len(person_name)
-        for person in person_name:
+    def load_dataset(self):
+        img_set_id_list = []
+        for img_set_id in os.listdir(self.path):
+            img_set_id_list.append(img_set_id)
+
+        for person in img_set_id_list:
             current_path = os.path.join(self.path, person)
             for fpath, dirname, fnames in os.walk(current_path):
                 for fname in fnames:
@@ -37,7 +40,9 @@ class Dataset:
                         self.labels.append(int(person[-1]))
         self.images = np.array(self.images)
         self.labels = np.array(self.labels)
+        # print(self.images.shape)
         self.class_num = max(self.labels) + 1
+        # print(self.labels)
 
         img_rows = self.images.shape[1]
         img_cols = self.images.shape[2]
@@ -84,6 +89,6 @@ class Dataset:
 
 
 if __name__ == '__main__':
-    dataset = Dataset("data/normalized-faces/")
-    dataset.load_dataset("person_0")
+    dataset = Dataset()
+    dataset.load_dataset()
     # dataset.prepare_dataset()
